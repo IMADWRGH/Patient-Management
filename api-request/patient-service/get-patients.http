@@ -1,0 +1,2 @@
+### GET request to get list of patients
+GET http://localhost:8080/api/patient/getAll
