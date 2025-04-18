@@ -3,6 +3,7 @@ package com.imadwrgh.patientservice.Service.ServiceImpl;
 
 import com.imadwrgh.patientservice.Repository.PatientRepo;
 import com.imadwrgh.patientservice.Service.PatientService;
+import com.imadwrgh.patientservice.dto.PatientRequestDTO;
 import com.imadwrgh.patientservice.dto.PatientResponseDTO;
 import com.imadwrgh.patientservice.mapper.PatientMapper;
 import com.imadwrgh.patientservice.model.Patient;
@@ -22,25 +23,25 @@ private final PatientRepo patientRepo;
         this.patientRepo = patientRepo;
     }
 
-
-    public Patient save(Patient patient){
-        return patientRepo.save(patient);
-    }
-
-    public Patient update(Patient patient, UUID id){
-        Optional<Patient> patient1 = patientRepo.findById(id);
-        if (patient1.isPresent()){
-           return patientRepo.save(patient);
-        }
-        return  null;
-    }
-
     public Page<PatientResponseDTO> list(Pageable pageable){
          Page<Patient> patients = patientRepo.findAll(pageable);
           return patients.map(PatientMapper::toDTO);
     }
 
-    public void delete(UUID id){
-       patientRepo.deleteById(id);
+    @Override
+    public PatientResponseDTO create(PatientRequestDTO patientRequestDTO) {
+        return null;
     }
+
+    @Override
+    public PatientResponseDTO updatePatient(UUID id, PatientRequestDTO patientRequestDTO) {
+        return null;
+    }
+
+    @Override
+    public void deletePatient(UUID id) {
+
+    }
+
+
 }
