@@ -6,11 +6,14 @@ import com.imadwrgh.patientservice.Service.PatientService;
 import com.imadwrgh.patientservice.dto.PatientRequestDTO;
 import com.imadwrgh.patientservice.dto.PatientResponseDTO;
 import com.imadwrgh.patientservice.exception.EmailAlreadyExistsException;
+import com.imadwrgh.patientservice.exception.PatientNotFoundException;
 import com.imadwrgh.patientservice.mapper.PatientMapper;
 import com.imadwrgh.patientservice.model.Patient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Service
@@ -38,12 +41,27 @@ private final PatientRepo patientRepo;
 
     @Override
     public PatientResponseDTO updatePatient(UUID id, PatientRequestDTO patientRequestDTO) {
-        return null;
+        Patient patient =patientRepo.findById(id)
+                .orElseThrow(()->new PatientNotFoundException(String.format("this patient not found : %s",id)));
+        if (patientRepo.existsByEmailAndIdNot(patientRequestDTO.getEmail(),
+                id)) {
+            throw new EmailAlreadyExistsException(
+                    "A patient with this email " + "already exists"
+                            + patientRequestDTO.getEmail());
+        }
+
+        patient.setName(patientRequestDTO.getName());
+        patient.setAddress(patientRequestDTO.getAddress());
+        patient.setEmail(patientRequestDTO.getEmail());
+        patient.setBirthDate(LocalDate.parse(patientRequestDTO.getDateOfBirth()));
+
+        Patient updatedPatient = patientRepo.save(patient);
+        return PatientMapper.toDTO(updatedPatient);
     }
 
     @Override
     public void deletePatient(UUID id) {
-
+        patientRepo.deleteById(id);
     }
 
 
