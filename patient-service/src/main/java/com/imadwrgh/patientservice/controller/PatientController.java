@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping(path = "api/patient")
 public class PatientController {
@@ -31,4 +33,16 @@ public class PatientController {
     public ResponseEntity<PatientResponseDTO> create(@RequestBody PatientRequestDTO patientRequestDTO){
         return ResponseEntity.ok().body(patientService.create(patientRequestDTO));
     }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PatientResponseDTO> updatePatient(@PathVariable UUID id,@RequestBody PatientRequestDTO patientRequestDTO) {
+
+        PatientResponseDTO patientResponseDTO = patientService.updatePatient(id,
+                patientRequestDTO);
+
+        return ResponseEntity.ok().body(patientResponseDTO);
+    }
+
+
 }
