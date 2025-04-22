@@ -21,6 +21,7 @@ public class PatientRequestDTO {
     private String dateOfBirth;
 
 
+    @NotBlank(message = "Registed Date  is required")
     private String registeredDate;
 
     public @NotBlank(message = "Name is required") @Size(max = 100, message = "Name cannot exceed 100 characters") String getName() {
@@ -66,5 +67,4 @@ public class PatientRequestDTO {
     public void setRegisteredDate(String registeredDate) {
         this.registeredDate = registeredDate;
     }
-
 }
