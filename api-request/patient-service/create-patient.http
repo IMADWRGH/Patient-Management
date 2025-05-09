@@ -1,0 +1,10 @@
+POST http://localhost:8080/api/patient/create
+Content-Type: application/json
+
+{
+  "name": " Test",
+  "email": "test11@example.com",
+  "address": "123 Main Street",
+  "dateOfBirth": "1995-09-09",
+  "registeredDate": "2024-11-28"
+}
